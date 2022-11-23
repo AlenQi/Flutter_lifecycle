@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-
 class Parent extends StatefulWidget {
   Parent({Key key}) : super(key: key);
 
   _ParentState createState() => _ParentState();
 }
 
-
 class _ParentState extends State<Parent> {
   int _counter = 0;
+  Key k;
 
   //当Widget第一次插入到Widget树时会被调用。对于每一个State对象，Flutter只会调用该回调一次
   @override
   void initState() {
     super.initState();
+    k = Key('hello');
     print("page2 parent initState......");
   }
 
@@ -22,7 +22,6 @@ class _ParentState extends State<Parent> {
   void setState(fn) {
     super.setState(fn);
     print("page2 parent setState......");
-
   }
 
   /*
@@ -35,6 +34,18 @@ class _ParentState extends State<Parent> {
     print("page2 parent didChangeDependencies......");
   }
 
+  void _incrementCounter() {
+    if (k == Key('hello')) {
+      setState(() {
+        k = Key('world');
+      });
+    } else {
+      setState(() {
+        k = Key('hello');
+      });
+    }
+  }
+
   //绘制界面
   @override
   Widget build(BuildContext context) {
@@ -43,16 +54,18 @@ class _ParentState extends State<Parent> {
       appBar: AppBar(title: Text("setState demo")),
       body: Center(
           child: RaisedButton(
-            ///点击事件
-            onPressed: () {
-              setState(() {
-                _counter++;
-              });
-            },
-            child: Child(count:_counter),
-          )),
+        ///点击事件
+        onPressed: () {
+          setState(() {
+            _counter++;
+            _incrementCounter();
+          });
+        },
+        child: Child(
+          count: _counter,
+        ),
+      )),
     );
-
   }
 
   //状态改变的时候会调用该方法,比如父类调用了setState
@@ -89,7 +102,7 @@ class _ChildState extends State<Child> {
   //绘制界面
   @override
   Widget build(BuildContext context) {
-    print("child build......");
+    print("page2 child build......");
     return Text('点击按钮查看状态变化 count: ${widget.count}');
   }
 
@@ -99,7 +112,6 @@ class _ChildState extends State<Child> {
     super.initState();
     print("page2 child initState......");
   }
-
 
   /*
   *初始化时，在initState之后立刻调用

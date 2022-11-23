@@ -87,7 +87,7 @@ class _Page1State extends State<Page1> with WidgetsBindingObserver{
   //监听App生命周期回调
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
-    print("$state");
+    print("didChangeAppLifecycleState生命周期>>>$state");
     if (state == AppLifecycleState.resumed) {
       //do sth
     }
